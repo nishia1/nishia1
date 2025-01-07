@@ -7,4 +7,4 @@ some of my current projects?
 - ☀ learning nlp & ml for senti-news :)
 - 🤖 working on my own wall-e robot!
 
-most likely going to start uploading some old projects to here soon!
+most likely going to start uploading some old projects to here soon but unfortunately a lot of projects are not yet hosted on here :(!
