@@ -1,5 +1,8 @@
-<p align=center>[![Typing SVG](https://readme-typing-svg.demolab.com/?lines=Hi+I'm+Nishi!)](https://git.io/typing-svg)<\p>
-
+<p align="center">
+  <a href="https://git.io/typing-svg">
+    <img src="https://readme-typing-svg.demolab.com/?lines=Hi+I'm+Nishi!" />
+  </a>
+</p>
 
 I'm a student studying CS at Georgia Institute of Technology!
 
