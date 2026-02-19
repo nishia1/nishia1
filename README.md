@@ -1,5 +1,7 @@
 [![Typing SVG](https://readme-typing-svg.demolab.com/?lines=Hi+I'm+Nishi!)](https://git.io/typing-svg)
-Hi, I'm Nishi!👋 I'm a student studying CS at Georgia Institute of Technology!
+
+
+I'm a student studying CS at Georgia Institute of Technology!
 
 I like robots, data-driven appliations for cutting-edge technology, and building cool stuff at hackathons :)
 #
