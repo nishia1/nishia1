@@ -5,9 +5,7 @@
   </a>
 </p>
 -->
-<p align="center">
-  <img src="dog_intro.svg" alt="Hi, I'm Nishi animation" />
-</p>
+<img src="./assets/dogIntro.svg" />
 
 I'm a student studying CS at Georgia Institute of Technology!
 
