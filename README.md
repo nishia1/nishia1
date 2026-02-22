@@ -1,11 +1,8 @@
-<!--
 <p align="center">
   <a href="https://git.io/typing-svg">
     <img src="https://readme-typing-svg.demolab.com/?lines=Hi+I'm+Nishi!" />
   </a>
 </p>
--->
-<img src="./assets/dogIntro.svg" />
 
 I'm a student studying CS at Georgia Institute of Technology!
 
