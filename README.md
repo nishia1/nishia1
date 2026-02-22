@@ -6,7 +6,7 @@
 </p>
 -->
 <p align="center">
-  <img src="dogsRunning.svg" alt="Hi, I'm Nishi animation" />
+  <img src="dog_intro.svg" alt="Hi, I'm Nishi animation" />
 </p>
 
 I'm a student studying CS at Georgia Institute of Technology!
