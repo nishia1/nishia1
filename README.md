@@ -1,5 +1,4 @@
 <p align="center">
-  <img src="dogs_intro.gif" alt="Dogs animation" /><br/>
   <img src="https://readme-typing-svg.demolab.com/?lines=Hi+I'm+Nishi!" alt="Typing intro" />
 </p>
 
