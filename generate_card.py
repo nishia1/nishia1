@@ -14,7 +14,7 @@ import requests
 
 # ── config ────────────────────────────────────────────────────────────────────
 USERNAME   = "nishia1"
-BIRTH_YEAR  = 2007
+BIRTH_YEAR  = 2006
 BIRTH_MONTH = 3
 TOKEN      = os.environ.get("GH_TOKEN", "")   # set as repo secret GH_TOKEN
 TEMPLATE   = "card_template.html"
@@ -127,13 +127,17 @@ def fetch_top_languages(repos):
     return [(lang, round(bytes_ / total_bytes * 100, 1)) for lang, bytes_ in sorted_langs]
 
 def fetch_commits_this_year():
+    # Use contributionCalendar.totalContributions — this is the exact number
+    # shown on your GitHub profile graph, includes private contributions
+    # as long as "Include private contributions" is enabled on your profile.
     year = datetime.datetime.now(datetime.timezone.utc).year
     query = """
     query($from: DateTime!, $to: DateTime!) {
       viewer {
         contributionsCollection(from: $from, to: $to) {
-          totalCommitContributions
-          restrictedContributionsCount
+          contributionCalendar {
+            totalContributions
+          }
         }
       }
     }
@@ -144,8 +148,7 @@ def fetch_commits_this_year():
     }
     try:
         data = gh_graphql(query, variables)
-        cc = data["data"]["viewer"]["contributionsCollection"]
-        return cc["totalCommitContributions"] + cc["restrictedContributionsCount"]
+        return data["data"]["viewer"]["contributionsCollection"]["contributionCalendar"]["totalContributions"]
     except Exception:
         return 0
 
