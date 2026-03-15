@@ -209,6 +209,49 @@ def fetch_streak_and_contributed():
     except Exception:
         return 0, 0
 
+
+def fetch_committed_today_and_streak_info():
+    """Returns (committed_today, days_since_last_commit) using last 30 days of calendar."""
+    today = datetime.datetime.now(datetime.timezone.utc).date()
+    thirty_days_ago = today - datetime.timedelta(days=30)
+    query = """
+    query($from: DateTime!, $to: DateTime!) {
+      viewer {
+        contributionsCollection(from: $from, to: $to) {
+          contributionCalendar {
+            weeks {
+              contributionDays { date contributionCount }
+            }
+          }
+        }
+      }
+    }
+    """
+    variables = {
+        "from": f"{thirty_days_ago.isoformat()}T00:00:00Z",
+        "to":   f"{today.isoformat()}T23:59:59Z",
+    }
+    try:
+        data = gh_graphql(query, variables)
+        weeks = data["data"]["viewer"]["contributionsCollection"]["contributionCalendar"]["weeks"]
+        days = []
+        for week in weeks:
+            for day in week["contributionDays"]:
+                days.append((day["date"], day["contributionCount"]))
+        days.sort(key=lambda x: x[0])
+        today_str = today.isoformat()
+        committed_today = any(d == today_str and c > 0 for d, c in days)
+        days_since = 0
+        for d, c in reversed(days):
+            if d == today_str:
+                continue
+            if c > 0:
+                break
+            days_since += 1
+        return committed_today, days_since
+    except Exception:
+        return False, 0
+
 # ── uptime ────────────────────────────────────────────────────────────────────
 
 def calc_uptime():
@@ -218,6 +261,182 @@ def calc_uptime():
     return f"{years} years, {months} months"
 
 # ── render ────────────────────────────────────────────────────────────────────
+
+DOG_HAPPY    = '''                                                              
+                                                              
+                                                              
+                                                              
+                                                              
+                                                              
+                                                              
+                                                              
+                                                              
+                                                              
+                                                              
+                                                              
+                                                              
+                                                              
+                                                              
+                             $$$$$$$$$                        
+$$$                      t$$$$$$$$$$$$$$$|                    
+WMC                     $$$$$$$$$$$$$$$$$$$$                  
+                      r$$$$$$$$$$$$$$$B;$$$$$                 
+$$$$$$$#$w            $$$  W$$$$$$$$$$   \\$$$$                
+$$$$$$$$$$$$$$$$L%U   $$$$$$$$$$$$$$$*! |xYY*$$               
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$M$M!dm$b              
+$$$$$$$$$$$$$$$$b$$$$X$$$$$$$$$$$$$$$$$$$$nY$$!               
+$$$$$$$$$$$$$$$$ $$$$$$$$$$$$$$$$$$$$$$$dp Y$X                
+$$$$$$$$$$$$$$$L$$$$@$$$$$$$hz #$$$$$$$$$ $$                  
+$$$$$*$$$$$$&amp;$B$$$$!/$$$$$$       . Ckx$%                     
+$$$$$$$$$$$$$xW$$$$/p$$$$$ob$$$@Q    U8%$                     
+$$$$$$$$$.$$$.$$$$$JU$$$$$o  %$$B    $@CZ$$                   
+$$$$$$$$$$X$$W$$$$$w$$$$$$$$$      $$$B` @$$|                 
+$$$$$$$$$$$w$$$$$$$$m$$$$$$$$$$$$$$$`B  J%:t$b                
+$$$$$$$$$$$$$$$$$ $$&amp;$$$$$$$z$$$$$  x$$$$  #$$$               
+    d$$$$$$$$$$$$$p$$W$$$$$$X $$$$$$$$$$   $$$$$              
+          /$$$$$$$$$$ $$$$$$$$#  $$$$$      d$$$$%            
+               $$$k$$$$$$$$$$$$$$8$           $$$$$           
+               t$$$$M$$$$$$$$$ m               d@Q$$$         
+                $$$$$&amp;$$$$$                     z$$$$$$$k     
+                $$$$$$$$L$                        $$$$$$$$$   
+                $$$$$$$$$                           W$$$$$$$  
+                 $$$$8$$                               kbLz@$ 
+                  $$$$$u                                      
+                  $$$$$$:                                     
+                   $$$$$k:                                    '''
+DOG_EXCITED  = '''    $$$$$p                                                    
+    $$$$$$$                                                   
+    $$bY$$$$#                                                 
+      t*$$$$$                                                 
+          \\ $$                                                
+          $$$$x    $$$$$$/Y                                   
+          $$$$$$$$$$$$$$$$$$$                                 
+          $$$$$$$$$$$$$$$$$$$$$$                              
+           $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$                    
+           $$$$$$Q @$$u  $$$$$$$$$$$$$$$$$$$                  
+           $$0$$$$$$U   u$$$$$$$&amp;$k$$$$$$$$$                  
+            $$QX  $$$$$$$$$$$%$hL8f$$$$$$$$$$$$               
+             fBLk   $$$$$$$p  u$$YY$8$$$$$$$$$$$$$            
+              w$$$$J      Xmb    tm$$$$$$$$$$$$$$$            
+               $$$$$$$$$w$$#    $Bm$$$$z$hq/Q$$$$             
+                !$$$$$$$$$$$  $$@%C#$$$$0:w$$$$$              
+                  $$$$$$$$$B 8MJ$$$$$$Wx.t|; $;               
+                  $$$z$$$$$$kQJ$ozpw$Ld$$n $$$                
+                  $$$w\\$$$$$$*d$@$$*$$Bkn $$$$                
+                  :$$$$YQ  k$q \\WU       $$$$$                
+                    $$$$$Zh              $$$$                 
+                     $$$$$$C $$        $$$$$$                 
+                      $$$ r$$$$/      /$$$$$C                 
+                       n$kC$$$$$$h *$$$$q$$$d                 
+                        $$ d$$*h$$&amp;d$$z   $$z                 
+                        $$t$$$$@@$   o .$$$$%                 
+                        $d$$$$$$$$z !q$$$$$$$$                
+                        CY$$   $$$$\'p$$$   $$$$               
+                          $%   $$$$$$$X     $$                
+                          $$$$$$#$$$$$M$$$$$$$$               
+                     $$$h$$$$$$$Y$$\\kM$$$$$$$$$               
+                   $$$$$$$$$$$$$ m$$/X$$$X$$$$$$              
+                 $$$$$$$$$$$$$$  $$$$$p$x m$$$$$              
+                $$$$$$$J$$$$$$*  $x$$*$$ !fp$$$$$             
+                $$$$$$$$$$$$p m*$$$$@0$   $$$$$$$$            
+               B$$$$$$$W$$$m  J%Z8$x 0$$qx$$$$$$$$            
+               $$$$$$$$$$MCu$       h. :U #  $$$$$\'           
+               $$$$#q$$$$$$$$           ! $$ $$k@$$           
+                $$$$$$p$Yd k*     |Z;/! z$$$$@xU$8k           
+                J$$$$&amp;$$$$\'.                                  
+                 t$$$$$$$$$:                                  
+                   $$$$$$$$                                   
+                      o\'$o                                    
+                                                              
+                                                              '''
+DOG_SLEEPING = '''                                                  
+                                                  
+                                                  
+                                                  
+                                                  
+                                                  
+                                                  
+                                                  
+                           $$:                    
+                     fw $$$$$$$$$$  $             
+              x|.       $$$$$$$$$$$$$$$$$ ;$hL    
+          $$$$$$$$$$$$M`$$$$$$$$$$$$$$$$$$p$\@$$$$
+        $$$$$$$$$$$$$$$  ; Y\'$$$$$$$$$$k$$$$     X
+    $$#$$$$$$$$$    $$    $$$$$ Y$$$$$$$W$$$  /$0 
+   $$$$$$X\$$$$$$  %$$  $$$$$$$    $$$$$$$$d $$$$$
+  $$$/ u\  $$$$$$$$$$$:$$$$$$$$$$$$$$ \'$$$$$$$$$$$
+   $$$$q$$$$$$$$$$$$$r $$mZ$$$$$$$$$k   Z$$$$/    
+   $$$$$$$$$  ;!$$$$$p  $o     $$$$\' %$$%$$       
+      :   U     k$$$$       ;  &amp;$$$$$$$$$$$$$$u   
+                f           .fB%pQh$$$$$|   . ;#  
+                          `b`    o0z$$$$    $$$:&amp;h
+                                    X         %$$%
+                                                  
+                                                  
+                                                  
+                                                  
+                                                  
+                                                  '''
+DOG_SAD      = '''                                                              
+                                                              
+                                                              
+                                                              
+                                                              
+                                                              
+                                                              
+                                                              
+                                                              
+                                                              
+                                                              
+                                                              
+                                                              
+                                   m$$$$$$$$$$                
+                        w$$J  ;$$$$$$$$$$$$$$$$$              
+                        $$$$$$$$$$$$$#|box$$$$$$$$X           
+                      $$$$\' $$$$$$n  /$C   $$w$$$$$$          
+                     $$.   $$z$$$QQC0C*x    ;   q$$$$         
+                     $    $$:$0           Y       $$$$        
+                    f     $  w         \\ 8$h;/      C$$       
+                   ;k!    $U$$$X      w$$$$$$$$L$   #$$$      
+                  o%      $$$ xY    U$$$$$$$$$$$$$$! $h$      
+                  bz      |0 XBx  m$$$$$$$$$$$$$$$$$$$Y$      
+                 oC      &amp;  %$Bz$$$$$$$$$$$$$$$$$$$$$$$       
+                 :J         @$#$Q$$$%dmz  r8$$$$$$$$$$$       
+                  r         BMuX:$$$$mn/owzU#$$$q%$$$$$$      
+                   X      |$$%*#$$bwqnm*bbwX.  d$ $$$$$$      
+                  C$\'    \'$$Qoo@$| 0kqUzn!        |$$$$$      
+                   Y     ;$&amp;  XQ.  u   \\!            $        
+                      $pt$$$$$to  f  /Yf              k       
+                      $\' u W$$/ .x|\\rt;;!           $$0       
+                     /$      $L         \'f|      r$$$$        
+                     \\$\\      /!:    :    /r\' z$$$$$$         
+                      $x        ;q\'  d$$    r@$$$$$$$         
+                      0M;      . Q@Y   $d    $$$$$$$$         
+                       LMo:   \'t  !#$p      $$$$$$$$b         
+                        Z$pu   /u   tb$$$$$$$ ! %$$$          
+                         z/|XY`:o\\!     L;w   ;Yk$$&amp;          
+                          z.:romzLpfnUfr  t   J| $$           
+                           Y/!\\$J:bk$$&amp;#L    .z $$W           
+                           Y.td$        |&amp;z!:  Y$$            
+                           !. #$          $z: f$$             
+                            z U$$         WL  !$$             
+                           po n$$         qU\'\\$$              '''
+
+STREAK_EXCITED = 7  # days to trigger excited state
+
+def build_dog_html(committed_today, streak, days_since_commit):
+    if streak >= STREAK_EXCITED and committed_today:
+        dog, color, label = DOG_EXCITED, "#ffa657", f"\u26a1 {streak} day streak!"
+    elif committed_today:
+        dog, color, label = DOG_HAPPY,   "#7ee787", "committed today :)"
+    elif days_since_commit >= 2:
+        dog, color, label = DOG_SLEEPING, "#8b949e", "zzz... no commits in 2+ days"
+    else:
+        dog, color, label = DOG_SAD,      "#f78166", "no commits today..."
+    return ('<div class="dog-wrap">'
+            f'<div class="dog-label" style="color:{color};font-size:9px;margin-bottom:3px">{label}</div>'
+            f'<pre class="dog-art" style="color:{color}">{dog}</pre>'
+            '</div>')
 
 def build_lang_bars(top_langs):
     bars = []
@@ -272,6 +491,7 @@ def render_html(data):
         ("{{STREAK}}",      str(data["streak"])),
         ("{{STREAK_PCT}}",  str(streak_pct)),
         ("{{LANG_BARS}}",   data["lang_bars"]),
+        ("{{DOG}}",        data["dog"]),
     ]:
         base = base.replace(key, val)
 
@@ -301,6 +521,7 @@ def main():
     stars      = fetch_stars(repos)
     commits    = fetch_commits_alltime()
     streak, contributed = fetch_streak_and_contributed()
+    committed_today, days_since_commit = fetch_committed_today_and_streak_info()
     top_langs  = fetch_top_languages(repos)
 
     data = {
@@ -312,6 +533,7 @@ def main():
         "followers":   profile.get("followers", 0),
         "streak":      streak,
         "lang_bars":   build_lang_bars(top_langs),
+        "dog":         build_dog_html(committed_today, streak, days_since_commit),
     }
 
     print(json.dumps({k: v for k, v in data.items() if k != "lang_bars"}, indent=2))
