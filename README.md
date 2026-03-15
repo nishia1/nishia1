@@ -2,13 +2,11 @@
   <img src="https://readme-typing-svg.demolab.com/?lines=Hi+I'm+Nishi!" alt="Typing intro" />
 </p>
 
-<!--<a href="https://github.com/nishia1/nishia1">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nishia1/nishia1/main/dark_mode.svg">
-    <img alt="Nishi's GitHub Profile README" src="https://raw.githubusercontent.com/nishia1/nishia1/main/light_mode.svg">
-  </picture>
-</a> 
--->
+<picture>
+  <source media="(prefers-color-scheme: dark)"  srcset="github_card_dark.jpg">
+  <source media="(prefers-color-scheme: light)" srcset="github_card_light.jpg">
+  <img src="github_card_dark.jpg" alt="nishi@nishia1">
+</picture>
 
 I'm a student studying CS at Georgia Institute of Technology!
 
