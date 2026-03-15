@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 generate_card.py
 Fetches live GitHub data for nishia1 and renders github_card.jpg
@@ -60,43 +59,78 @@ def gh_graphql(query, variables=None):
 # ── fetch data ────────────────────────────────────────────────────────────────
 
 def fetch_profile():
-    return gh_rest(f"users/{USERNAME}")
+    # Use GraphQL viewer query so private data is included with the token
+    query = """
+    query {
+      viewer {
+        login
+        followers { totalCount }
+        repositories(ownerAffiliations: OWNER, first: 1) {
+          totalCount
+        }
+      }
+    }
+    """
+    try:
+        data = gh_graphql(query)
+        viewer = data["data"]["viewer"]
+        return {
+            "public_repos": viewer["repositories"]["totalCount"],
+            "followers":    viewer["followers"]["totalCount"],
+        }
+    except Exception:
+        return gh_rest(f"users/{USERNAME}")
 
 def fetch_repos():
-    repos, page = [], 1
+    # GraphQL: get ALL repos including private ones owned by the user
+    repos, cursor = [], None
+    query = """
+    query($cursor: String) {
+      viewer {
+        repositories(ownerAffiliations: OWNER, first: 100, after: $cursor) {
+          pageInfo { hasNextPage endCursor }
+          nodes {
+            name
+            isFork
+            stargazerCount
+            languages(first: 10, orderBy: {field: SIZE, direction: DESC}) {
+              edges { size node { name } }
+            }
+          }
+        }
+      }
+    }
+    """
     while True:
-        batch = gh_rest(f"users/{USERNAME}/repos?per_page=100&page={page}&type=owner")
-        repos.extend(batch)
-        if len(batch) < 100:
+        data = gh_graphql(query, {"cursor": cursor})
+        page = data["data"]["viewer"]["repositories"]
+        repos.extend(page["nodes"])
+        if not page["pageInfo"]["hasNextPage"]:
             break
-        page += 1
+        cursor = page["pageInfo"]["endCursor"]
     return repos
 
 def fetch_stars(repos):
-    return sum(r["stargazers_count"] for r in repos)
+    return sum(r.get("stargazerCount", 0) for r in repos)
 
 def fetch_top_languages(repos):
-    """Aggregate bytes per language across all repos."""
+    """Aggregate bytes per language across all repos (private + public)."""
     totals = {}
     for repo in repos:
-        if repo.get("fork"):
+        if repo.get("isFork"):
             continue
-        try:
-            langs = gh_rest(f"repos/{USERNAME}/{repo['name']}/languages")
-            for lang, bytes_ in langs.items():
-                totals[lang] = totals.get(lang, 0) + bytes_
-        except Exception:
-            pass
-    # sort and take top 5
+        for edge in repo.get("languages", {}).get("edges", []):
+            lang = edge["node"]["name"]
+            totals[lang] = totals.get(lang, 0) + edge["size"]
     sorted_langs = sorted(totals.items(), key=lambda x: x[1], reverse=True)[:5]
     total_bytes = sum(b for _, b in sorted_langs) or 1
     return [(lang, round(bytes_ / total_bytes * 100, 1)) for lang, bytes_ in sorted_langs]
 
 def fetch_commits_this_year():
-    year = datetime.datetime.utcnow().year
+    year = datetime.datetime.now(datetime.timezone.utc).year
     query = """
-    query($login: String!, $from: DateTime!, $to: DateTime!) {
-      user(login: $login) {
+    query($from: DateTime!, $to: DateTime!) {
+      viewer {
         contributionsCollection(from: $from, to: $to) {
           totalCommitContributions
           restrictedContributionsCount
@@ -105,26 +139,29 @@ def fetch_commits_this_year():
     }
     """
     variables = {
-        "login": USERNAME,
         "from": f"{year}-01-01T00:00:00Z",
         "to":   f"{year}-12-31T23:59:59Z",
     }
     try:
         data = gh_graphql(query, variables)
-        cc = data["data"]["user"]["contributionsCollection"]
+        cc = data["data"]["viewer"]["contributionsCollection"]
         return cc["totalCommitContributions"] + cc["restrictedContributionsCount"]
     except Exception:
         return 0
 
 def fetch_streak_and_contributed():
     """
-    Uses contributionCalendar to calculate longest streak
-    and total contributed repos.
+    Uses viewer (token-auth) so private contributions are included.
+    Calculates longest streak and total contributed repos.
     """
     query = """
-    query($login: String!) {
-      user(login: $login) {
-        repositoriesContributedTo(first: 1, contributionTypes: [COMMIT, ISSUE, PULL_REQUEST, REPOSITORY]) {
+    query {
+      viewer {
+        repositoriesContributedTo(
+          first: 1
+          includeUserRepositories: true
+          contributionTypes: [COMMIT, ISSUE, PULL_REQUEST, REPOSITORY]
+        ) {
           totalCount
         }
         contributionsCollection {
@@ -141,12 +178,12 @@ def fetch_streak_and_contributed():
     }
     """
     try:
-        data = gh_graphql(query, {"login": USERNAME})
-        user = data["data"]["user"]
-        contributed = user["repositoriesContributedTo"]["totalCount"]
+        data = gh_graphql(query)
+        viewer = data["data"]["viewer"]
+        contributed = viewer["repositoriesContributedTo"]["totalCount"]
 
         days = []
-        for week in user["contributionsCollection"]["contributionCalendar"]["weeks"]:
+        for week in viewer["contributionsCollection"]["contributionCalendar"]["weeks"]:
             for day in week["contributionDays"]:
                 days.append(day["contributionCount"])
 
