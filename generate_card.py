@@ -14,7 +14,7 @@ import requests
 
 # ── config ────────────────────────────────────────────────────────────────────
 USERNAME   = "nishia1"
-BIRTH_YEAR  = 2006
+BIRTH_YEAR  = 2007
 BIRTH_MONTH = 3
 TOKEN      = os.environ.get("GH_TOKEN", "")   # set as repo secret GH_TOKEN
 TEMPLATE   = "card_template.html"
@@ -126,31 +126,38 @@ def fetch_top_languages(repos):
     total_bytes = sum(b for _, b in sorted_langs) or 1
     return [(lang, round(bytes_ / total_bytes * 100, 1)) for lang, bytes_ in sorted_langs]
 
-def fetch_commits_this_year():
-    # Use contributionCalendar.totalContributions — this is the exact number
-    # shown on your GitHub profile graph, includes private contributions
-    # as long as "Include private contributions" is enabled on your profile.
-    year = datetime.datetime.now(datetime.timezone.utc).year
+def fetch_commits_alltime():
+    # Sum contributionCalendar.totalContributions across every year
+    # from account creation to now — matches your profile graph total.
+    query_joined = """
+    query { viewer { createdAt } }
+    """
+    try:
+        joined_year = int(gh_graphql(query_joined)["data"]["viewer"]["createdAt"][:4])
+    except Exception:
+        joined_year = 2020
+
+    current_year = datetime.datetime.now(datetime.timezone.utc).year
     query = """
     query($from: DateTime!, $to: DateTime!) {
       viewer {
         contributionsCollection(from: $from, to: $to) {
-          contributionCalendar {
-            totalContributions
-          }
+          contributionCalendar { totalContributions }
         }
       }
     }
     """
-    variables = {
-        "from": f"{year}-01-01T00:00:00Z",
-        "to":   f"{year}-12-31T23:59:59Z",
-    }
-    try:
-        data = gh_graphql(query, variables)
-        return data["data"]["viewer"]["contributionsCollection"]["contributionCalendar"]["totalContributions"]
-    except Exception:
-        return 0
+    total = 0
+    for year in range(joined_year, current_year + 1):
+        try:
+            data = gh_graphql(query, {
+                "from": f"{year}-01-01T00:00:00Z",
+                "to":   f"{year}-12-31T23:59:59Z",
+            })
+            total += data["data"]["viewer"]["contributionsCollection"]["contributionCalendar"]["totalContributions"]
+        except Exception:
+            pass
+    return total
 
 def fetch_streak_and_contributed():
     """
@@ -292,7 +299,7 @@ def main():
     profile    = fetch_profile()
     repos      = fetch_repos()
     stars      = fetch_stars(repos)
-    commits    = fetch_commits_this_year()
+    commits    = fetch_commits_alltime()
     streak, contributed = fetch_streak_and_contributed()
     top_langs  = fetch_top_languages(repos)
 
