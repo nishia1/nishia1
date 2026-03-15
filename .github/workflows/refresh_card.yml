@@ -34,7 +34,7 @@ jobs:
       # 5 ── generate the card (uses GH_TOKEN secret for higher rate limits)
       - name: Generate card
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         run: python generate_card.py
 
       # 6 ── commit & push if the image changed
