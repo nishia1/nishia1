@@ -103,6 +103,17 @@
 
   .ascii-col { flex-shrink: 0; width: 260px; }
 
+ .ascii-col { flex-shrink: 0; width: 260px; overflow: hidden; }
+
+/* new rule for dog resizing to avoid container overflow*/
+.dog-art {
+  font-size: 7.2px;
+  line-height: 1.25;
+  white-space: pre;
+  overflow: hidden;
+  max-width: 260px;
+}
+
   .ascii-art {
     font-size: 7.2px;
     line-height: 1.25;
