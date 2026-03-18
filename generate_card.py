@@ -11,6 +11,7 @@ import math
 import datetime
 import subprocess
 import requests
+import textwrap
 
 # ── config ────────────────────────────────────────────────────────────────────
 USERNAME   = "nishia1"
@@ -420,6 +421,9 @@ def build_dog_html(committed_today, streak, days_since_commit):
         dog, color, label = DOG_SLEEPING, "#8b949e", "zzz... no commits in 2+ days"
     else:
         dog, color, label = DOG_SAD,      "#f78166", "no commits today..."
+
+    dog = textwrap.dedent(dog)  # ← strip common leading whitespace
+
     return ('<div class="dog-wrap">'
             f'<div class="dog-label" style="color:{color};font-size:9px;margin-bottom:3px">{label}</div>'
             f'<pre class="dog-art" style="color:{color}">{dog}</pre>'
