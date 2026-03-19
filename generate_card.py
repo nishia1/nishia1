@@ -163,7 +163,10 @@ def fetch_commits_alltime():
 def fetch_streak_and_contributed():
     """
     Uses viewer (token-auth) so private contributions are included.
-    Calculates longest streak and total contributed repos.
+    Returns (current_streak, longest_streak, contributed_repos).
+    - current_streak: consecutive days up to today with contributions
+    - longest_streak: longest ever run in the past year
+    - contributed_repos: total repos contributed to
     """
     query = """
     query {
@@ -193,22 +196,36 @@ def fetch_streak_and_contributed():
         viewer = data["data"]["viewer"]
         contributed = viewer["repositoriesContributedTo"]["totalCount"]
 
+        # Collect days in chronological order with dates
         days = []
         for week in viewer["contributionsCollection"]["contributionCalendar"]["weeks"]:
             for day in week["contributionDays"]:
-                days.append(day["contributionCount"])
+                days.append((day["date"], day["contributionCount"]))
+        days.sort(key=lambda x: x[0])
 
-        longest = cur = 0
-        for count in days:
+        # Current streak: walk backwards from today, stop at first zero
+        today = datetime.datetime.now(datetime.timezone.utc).date().isoformat()
+        current = 0
+        for date, count in reversed(days):
+            if date > today:
+                continue
             if count > 0:
-                cur += 1
-                longest = max(longest, cur)
+                current += 1
             else:
-                cur = 0
+                break
 
-        return longest, contributed
+        # Longest streak: scan forwards through all days
+        longest = best = 0
+        for _, count in days:
+            if count > 0:
+                longest += 1
+                best = max(best, longest)
+            else:
+                longest = 0
+
+        return current, best, contributed
     except Exception:
-        return 0, 0
+        return 0, 0, 0
 
 
 def fetch_committed_today_and_streak_info():
@@ -412,9 +429,9 @@ DOG_SAD      = '''                                   m$$$$$$$$$$
 
 STREAK_EXCITED = 7  # days to trigger excited state
 
-def build_dog_html(committed_today, streak, days_since_commit):
-    if streak >= STREAK_EXCITED and committed_today:
-        dog, color, label = DOG_EXCITED, "#ffa657", f"\u26a1 {streak} day streak!"
+def build_dog_html(committed_today, current_streak, days_since_commit):
+    if current_streak >= STREAK_EXCITED and committed_today:
+        dog, color, label = DOG_EXCITED, "#ffa657", f"\u26a1 {current_streak} day streak!"
     elif committed_today:
         dog, color, label = DOG_HAPPY,   "#7ee787", "committed today :)"
     elif days_since_commit >= 2:
@@ -422,7 +439,7 @@ def build_dog_html(committed_today, streak, days_since_commit):
     else:
         dog, color, label = DOG_SAD,      "#f78166", "no commits today..."
 
-    dog = textwrap.dedent(dog)  # ← strip common leading whitespace
+    dog = textwrap.dedent(dog)
 
     return ('<div class="dog-wrap">'
             f'<div class="dog-label" style="color:{color};font-size:9px;margin-bottom:3px">{label}</div>'
@@ -470,7 +487,7 @@ def render_html(data):
     with open(TEMPLATE, "r", encoding="utf-8") as f:
         base = f.read()
 
-    streak_pct = min(100, round(data["streak"] / max(data["streak"], 60) * 100))
+    streak_pct = min(100, round(data["longest_streak"] / max(data["longest_streak"], 60) * 100))
 
     for key, val in [
         ("{{UPTIME}}",      data["uptime"]),
@@ -479,10 +496,10 @@ def render_html(data):
         ("{{STARS}}",       str(data["stars"])),
         ("{{COMMITS}}",     f"{data['commits']:,}"),
         ("{{FOLLOWERS}}",   str(data["followers"])),
-        ("{{STREAK}}",      str(data["streak"])),
+        ("{{STREAK}}",      str(data["longest_streak"])),
         ("{{STREAK_PCT}}",  str(streak_pct)),
         ("{{LANG_BARS}}",   data["lang_bars"]),
-        ("{{DOG}}",        data["dog"]),
+        ("{{DOG}}",         data["dog"]),
     ]:
         base = base.replace(key, val)
 
@@ -511,20 +528,20 @@ def main():
     repos      = fetch_repos()
     stars      = fetch_stars(repos)
     commits    = fetch_commits_alltime()
-    streak, contributed = fetch_streak_and_contributed()
+    current_streak, longest_streak, contributed = fetch_streak_and_contributed()
     committed_today, days_since_commit = fetch_committed_today_and_streak_info()
     top_langs  = fetch_top_languages(repos)
 
     data = {
-        "uptime":      calc_uptime(),
-        "repos":       profile.get("public_repos", len(repos)),
-        "contributed": contributed,
-        "stars":       stars,
-        "commits":     commits,
-        "followers":   profile.get("followers", 0),
-        "streak":      streak,
-        "lang_bars":   build_lang_bars(top_langs),
-        "dog":         build_dog_html(committed_today, streak, days_since_commit),
+        "uptime":         calc_uptime(),
+        "repos":          profile.get("public_repos", len(repos)),
+        "contributed":    contributed,
+        "stars":          stars,
+        "commits":        commits,
+        "followers":      profile.get("followers", 0),
+        "longest_streak": longest_streak,   # used for bar display in card
+        "lang_bars":      build_lang_bars(top_langs),
+        "dog":            build_dog_html(committed_today, current_streak, days_since_commit),
     }
 
     print(json.dumps({k: v for k, v in data.items() if k != "lang_bars"}, indent=2))
