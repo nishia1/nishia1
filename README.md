@@ -16,3 +16,5 @@ I like data-driven applications for cutting-edge technology, robots, tech for so
 Contact me at <nagrawal66@gatech.edu>!
 
 ![](https://komarev.com/ghpvc/?username=nishia1&color=green)
+
+![Isometric City Contributions](./city-contributions.svg)
