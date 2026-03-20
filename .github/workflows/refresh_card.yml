@@ -2,8 +2,8 @@ name: Refresh GitHub Card
 
 on:
   schedule:
-    # Runs every day at 00:05 UTC
-    - cron: "5 0 * * *"
+    # change to 11:59 run to make commits for day acc accurate
+    - cron: "59 23 * * *"
   workflow_dispatch:   # allow manual trigger from Actions tab
 
 jobs:
