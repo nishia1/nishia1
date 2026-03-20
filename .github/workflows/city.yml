@@ -1,0 +1,32 @@
+name: City Contributions
+
+on:
+  schedule:
+    - cron: "59 23 * * *"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - run: pip install requests
+
+      - name: Generate city SVG
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_USERNAME: ${{ github.repository_owner }}
+        run: python .github/scripts/city_render.py
+
+      - name: Commit SVG
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add city-contributions.svg
+          git diff --cached --quiet || git commit -m "chore: update city contributions"
+          git push
