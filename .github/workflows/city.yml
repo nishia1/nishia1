@@ -21,7 +21,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           GITHUB_USERNAME: ${{ github.repository_owner }}
-        run: python .github/scripts/cityRender.py
+        run: python scripts/cityRender.py
 
       - name: Commit SVG
         run: |
