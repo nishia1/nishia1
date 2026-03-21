@@ -83,7 +83,7 @@ LANDMARKS = {
     },
 }
 
-def iso_project(x, y, z, origin_x=600, origin_y=100, scale=20):
+def iso_project(x, y, z, origin_x=300, origin_y=80, scale=20):
     """Convert 3D grid coords to 2D isometric screen coords."""
     sx = origin_x + (x - y) * scale
     sy = origin_y + (x + y) * scale * 0.5 - z * scale
@@ -160,11 +160,11 @@ def landmark_bofa(cx, cy, base_h, scale=20):
 def render_city(weeks):
     svg_parts = []
     svg_parts.append("""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 500"
-        style="background: linear-gradient(180deg, #0a0a1a 0%, #1a1a3a 60%, #2a2a2a 100%)">""")
+        style="background: linear-gradient(180deg, #1a0530 0%, #6b1a3a 30%, #c4542a 65%, #f0a040 100%)"
     
     # Ground grid
-    SCALE = 18
-    MAX_HEIGHT = 12
+    SCALE = 12
+    MAX_HEIGHT = 8
     
     # Assign landmark positions — sprinkled across the contribution grid
     landmark_positions = {
@@ -199,11 +199,11 @@ def render_city(weeks):
                 # Generic city blocks with city-tinted colors
                 city_zone = week_i % 3
                 if city_zone == 0:
-                    cols = ("#a0b4c8","#607888","#708898")  # NYC steel blue
+                    cols = ("#ffffff","#cccccc","#e0e0e0")   # white
                 elif city_zone == 1:
-                    cols = ("#c09080","#906050","#a07060")  # ATL red clay
+                    cols = ("#ff69b4","#c0306a","#e04d90")   # pink
                 else:
-                    cols = ("#90b0d0","#607090","#7080a0")  # SF ocean blue
+                    cols = ("#222222","#111111","#1a1a1a")   # black
                 svg_parts.append(draw_building_block(week_i, day_i, h, *cols, scale=SCALE))
 
     # City label overlays
