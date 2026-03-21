@@ -14,7 +14,7 @@ I like data-driven applications for cutting-edge technology, robots, tech for so
 [![Tech Stack](https://skillicons.dev/icons?i=cpp,java,py,kotlin,matlab,latex,react,flask,pytorch,tensorflow,opencv,ros,arduino,raspberrypi,git,cmake&theme=dark&perline=8)](https://skillicons.dev)
 
 Contact me at <nagrawal66@gatech.edu>!
-
+#
 ![](https://komarev.com/ghpvc/?username=nishia1&color=green)
 
 ![Isometric City Contributions](./city-contributions.svg)
