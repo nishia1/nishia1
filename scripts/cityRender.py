@@ -29,7 +29,9 @@ def fetch_contributions():
         json={"query": query, "variables": {"login": GITHUB_USER}},
         headers={"Authorization": f"Bearer {GITHUB_TOKEN}"},
     )
-    weeks = r.json()["data"]["user"]["contributionsCollection"]["contributionCalendar"]["weeks"]
+    response_json = r.json()
+    print("API Response:", response_json)  # ← must be FIRST
+    weeks = response_json["data"]["user"]["contributionsCollection"]["contributionCalendar"]["weeks"]
     return [[day["contributionCount"] for day in week["contributionDays"]] for week in weeks]
 
 # --- Building landmark shapes (isometric SVG paths) ---
