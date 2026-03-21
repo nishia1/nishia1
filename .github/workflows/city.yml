@@ -19,7 +19,7 @@ jobs:
 
       - name: Generate city SVG
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           GITHUB_USERNAME: ${{ github.repository_owner }}
         run: python scripts/cityRender.py
 
