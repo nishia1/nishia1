@@ -1,0 +1,120 @@
+<svg width="100%" viewBox="0 0 680 160" xmlns="http://www.w3.org/2000/svg">
+<rect width="680" height="160" fill="#0d1117"/>
+<defs>
+  <style>
+    @keyframes fadein-text {
+      0%   { opacity: 0; }
+      100% { opacity: 1; }
+    }
+    .title {
+      font-family: Georgia, serif;
+      font-size: 34px;
+      font-weight: 400;
+      fill: #f0d0ff;
+      opacity: 0;
+      animation: fadein-text 1.4s ease-in 0.6s forwards;
+      letter-spacing: 1px;
+    }
+
+    .tag { font-family: Georgia, serif; font-size: 12px; letter-spacing: 3px; text-anchor: middle; opacity: 0; }
+    .t1 { fill: #cc77bb; animation: cycle1 10s linear 1.4s infinite; }
+    .t2 { fill: #77bb88; animation: cycle2 10s linear 1.4s infinite; }
+    .t3 { fill: #bb88ff; animation: cycle3 10s linear 1.4s infinite; }
+    .t4 { fill: #ff99cc; animation: cycle4 10s linear 1.4s infinite; }
+
+    @keyframes cycle1 {
+      0%    { opacity: 0; }
+      4%    { opacity: 1; }
+      20%   { opacity: 1; }
+      24%   { opacity: 0; }
+      96%   { opacity: 0; }
+      100%  { opacity: 0; }
+    }
+    @keyframes cycle2 {
+      0%    { opacity: 0; }
+      25%   { opacity: 0; }
+      29%   { opacity: 1; }
+      45%   { opacity: 1; }
+      49%   { opacity: 0; }
+      100%  { opacity: 0; }
+    }
+    @keyframes cycle3 {
+      0%    { opacity: 0; }
+      50%   { opacity: 0; }
+      54%   { opacity: 1; }
+      70%   { opacity: 1; }
+      74%   { opacity: 0; }
+      100%  { opacity: 0; }
+    }
+    @keyframes cycle4 {
+      0%    { opacity: 0; }
+      75%   { opacity: 0; }
+      79%   { opacity: 1; }
+      95%   { opacity: 1; }
+      99%   { opacity: 0; }
+      100%  { opacity: 0; }
+    }
+
+    @keyframes stream {
+      0%   { stroke-dashoffset: 500; opacity: 0; }
+      15%  { opacity: 0.45; }
+      70%  { opacity: 0.3; }
+      100% { stroke-dashoffset: -100; opacity: 0; }
+    }
+    .stream { fill: none; stroke-linecap: round; stroke-dasharray: 500; }
+    .s1 { animation: stream 2.2s ease-in-out 0.0s infinite; stroke: #cc55aa; stroke-width: 0.8; }
+    .s2 { animation: stream 2.4s ease-in-out 0.3s infinite; stroke: #aa66dd; stroke-width: 0.6; }
+    .s3 { animation: stream 2.0s ease-in-out 0.15s infinite; stroke: #dd44bb; stroke-width: 1.0; }
+    .s4 { animation: stream 2.5s ease-in-out 0.5s infinite; stroke: #bb77ee; stroke-width: 0.7; }
+    .s5 { animation: stream 2.1s ease-in-out 0.7s infinite; stroke: #ee66cc; stroke-width: 0.9; }
+    .s6 { animation: stream 2.3s ease-in-out 0.1s infinite; stroke: #9944cc; stroke-width: 0.6; }
+
+    @keyframes petal1  { 0% { transform:translate(-40px,70px)  rotate(0deg);   opacity:0; } 8%  { opacity:1; } 100% { transform:translate(720px,50px)  rotate(540deg);  opacity:0; } }
+    @keyframes petal2  { 0% { transform:translate(-40px,95px)  rotate(20deg);  opacity:0; } 10% { opacity:1; } 100% { transform:translate(720px,75px)  rotate(-480deg); opacity:0; } }
+    @keyframes petal3  { 0% { transform:translate(-40px,55px)  rotate(-15deg); opacity:0; } 8%  { opacity:1; } 100% { transform:translate(720px,85px)  rotate(600deg);  opacity:0; } }
+    @keyframes petal4  { 0% { transform:translate(-40px,115px) rotate(30deg);  opacity:0; } 10% { opacity:1; } 100% { transform:translate(720px,90px)  rotate(-540deg); opacity:0; } }
+    @keyframes petal5  { 0% { transform:translate(-40px,40px)  rotate(-30deg); opacity:0; } 8%  { opacity:1; } 100% { transform:translate(720px,65px)  rotate(420deg);  opacity:0; } }
+    @keyframes petal6  { 0% { transform:translate(-40px,130px) rotate(10deg);  opacity:0; } 10% { opacity:1; } 100% { transform:translate(720px,100px) rotate(-600deg); opacity:0; } }
+    @keyframes petal7  { 0% { transform:translate(-40px,80px)  rotate(45deg);  opacity:0; } 8%  { opacity:1; } 100% { transform:translate(720px,60px)  rotate(660deg);  opacity:0; } }
+    @keyframes petal8  { 0% { transform:translate(-40px,60px)  rotate(-10deg); opacity:0; } 9%  { opacity:1; } 100% { transform:translate(720px,80px)  rotate(-500deg); opacity:0; } }
+    @keyframes petal9  { 0% { transform:translate(-40px,105px) rotate(25deg);  opacity:0; } 8%  { opacity:1; } 100% { transform:translate(720px,70px)  rotate(580deg);  opacity:0; } }
+    @keyframes petal10 { 0% { transform:translate(-40px,35px)  rotate(-40deg); opacity:0; } 10% { opacity:1; } 100% { transform:translate(720px,55px)  rotate(-440deg); opacity:0; } }
+
+    .p1  { animation: petal1  3.2s ease-in-out 0.0s infinite; }
+    .p2  { animation: petal2  3.6s ease-in-out 0.4s infinite; }
+    .p3  { animation: petal3  3.0s ease-in-out 0.8s infinite; }
+    .p4  { animation: petal4  3.4s ease-in-out 0.2s infinite; }
+    .p5  { animation: petal5  2.9s ease-in-out 1.1s infinite; }
+    .p6  { animation: petal6  3.5s ease-in-out 0.6s infinite; }
+    .p7  { animation: petal7  3.1s ease-in-out 1.4s infinite; }
+    .p8  { animation: petal8  3.3s ease-in-out 0.9s infinite; }
+    .p9  { animation: petal9  3.7s ease-in-out 0.3s infinite; }
+    .p10 { animation: petal10 3.0s ease-in-out 1.6s infinite; }
+  </style>
+</defs>
+
+<path class="stream s1" d="M 0 48  C 120 42, 260 54, 420 46 C 520 41, 610 50, 700 44"/>
+<path class="stream s2" d="M 0 68  C 140 62, 290 72, 460 64 C 550 59, 630 68, 700 62"/>
+<path class="stream s3" d="M 0 82  C 100 76, 240 86, 400 78 C 500 73, 600 82, 700 76"/>
+<path class="stream s4" d="M 0 100 C 130 95, 270 104, 440 97 C 530 92, 620 101, 700 95"/>
+<path class="stream s5" d="M 0 116 C 110 111, 250 120, 410 113 C 510 108, 610 117, 700 111"/>
+<path class="stream s6" d="M 0 130 C 150 125, 300 134, 470 127 C 560 122, 640 131, 700 125"/>
+
+<g class="p1"><ellipse  cx="0" cy="0" rx="7" ry="3.5" fill="#ff88cc" opacity="0.9"  transform="rotate(30)"/></g>
+<g class="p2"><ellipse  cx="0" cy="0" rx="6" ry="3"   fill="#ee55bb" opacity="0.85" transform="rotate(-20)"/></g>
+<g class="p3"><ellipse  cx="0" cy="0" rx="8" ry="3.5" fill="#ff99dd" opacity="0.8"  transform="rotate(10)"/></g>
+<g class="p4"><ellipse  cx="0" cy="0" rx="5" ry="2.5" fill="#dd66bb" opacity="0.9"  transform="rotate(45)"/></g>
+<g class="p5"><ellipse  cx="0" cy="0" rx="7" ry="3"   fill="#ffaaee" opacity="0.75" transform="rotate(-35)"/></g>
+<g class="p6"><ellipse  cx="0" cy="0" rx="6" ry="2.5" fill="#55cc88" opacity="0.85" transform="rotate(20)"/></g>
+<g class="p7"><ellipse  cx="0" cy="0" rx="7" ry="3"   fill="#44bb77" opacity="0.8"  transform="rotate(-15)"/></g>
+<g class="p8"><ellipse  cx="0" cy="0" rx="5" ry="2.5" fill="#77ddaa" opacity="0.9"  transform="rotate(40)"/></g>
+<g class="p9"><ellipse  cx="0" cy="0" rx="8" ry="3"   fill="#33aa66" opacity="0.75" transform="rotate(-25)"/></g>
+<g class="p10"><ellipse cx="0" cy="0" rx="6" ry="3.5" fill="#66cc99" opacity="0.85" transform="rotate(15)"/></g>
+
+<text class="title" x="340" y="82" text-anchor="middle">Hi, I'm Nishi!</text>
+
+<text class="tag t1" x="340" y="110">SOFTWARE DEVELOPER</text>
+<text class="tag t2" x="340" y="110">OPEN SOURCE ENTHUSIAST</text>
+<text class="tag t3" x="340" y="110">CREATIVE CODER</text>
+<text class="tag t4" x="340" y="110">ALWAYS LEARNING</text>
+</svg>
