@@ -1,6 +1,6 @@
-<div align="center" style="margin: 0; line-height: 1;">
-  <img src="https://readme-typing-svg.demolab.com/?lines=Hi+I'm+Nishi!" alt="Typing intro" />
-</div>
+<p align="center">
+  <img src="intro.svg" alt="Hi I'm Nishi" />
+</p>
 <picture>
   <source media="(prefers-color-scheme: dark)"  srcset="github_card_dark.jpg">
   <source media="(prefers-color-scheme: light)" srcset="github_card_light.jpg">
