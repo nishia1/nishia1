@@ -105,15 +105,24 @@
 
  .ascii-col { flex-shrink: 0; width: 260px; overflow: hidden; }
 
-/* new rule for dog resizing to avoid container overflow*/
-.dog-art {
-  font-size: 7.2px;
-  line-height: 1.25;
-  white-space: pre;
-  overflow: hidden;
-  max-width: 260px;
-}
-
+ /* new rule for dog resizing to avoid container overflow*/
+ .dog-art {
+   font-size: 7.2px;
+   line-height: 1.25;
+   white-space: pre;
+   overflow: hidden;
+   max-width: 260px;
+ }
+ .dog-wrapper {
+   margin-top: 10px;
+ }
+ 
+ .dog-stats {
+   font-size: 10px;
+   color: var(--text-muted);
+   margin-top: 4px;
+   line-height: 1.4;
+ }
   .ascii-art {
     font-size: 7.2px;
     line-height: 1.25;
@@ -185,6 +194,33 @@
   .pill-c      { color: var(--green);  border-color: #7ee78755; background: #7ee78711; }
   .pill-read   { color: var(--yellow); border-color: #e3b34155; background: #e3b34111; }
   .pill-proj   { color: var(--red);    border-color: #f7816655; background: #f7816611; }
+
+  .status-line {
+    font-size: 11px;
+    margin-bottom: 6px;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+  }
+  .status-prefix {
+    color: var(--green);
+  }
+  .status-text {
+    color: var(--text-primary);
+  }
+ /* add blinking cursor */
+ .status-text::after {
+  content: " ▋";
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+ /* add glow to active frames */
+ .value .hi {
+  color: var(--green);
+  text-shadow: 0 0 6px rgba(126,231,135,0.4);
+}
 </style>
 </head>
 <body>
@@ -235,57 +271,48 @@
         <span style="background:#d2a8ff"></span>
         <span style="background:#8b949e"></span>
       </div>
-      {{DOG}}
+      <div class="dog-wrapper">
+        {{DOG}}
+        <div class="dog-stats">
+          <div>Companion.Status ... <span class="hi">Happy :)</span></div>
+          <div>Energy ............. {{ENERGY_BAR}} <span class="mu">({{ENERGY_STATE}})</span></div>
+        </div>
+      </div>
     </div>
 
     <div class="info-col">
       <div class="username-line">
         <span class="user">nishi</span><span class="sep">@</span><span class="host">nishia1</span>
       </div>
+      <div class="status-line">
+        <span class="status-prefix">&gt; status:</span>
+        <span class="status-text">building systems for real-world interaction</span>
+      </div>
       <div class="divider">────────────────────────────────────────────</div>
 
       <div class="section">
-        <div class="info-row">
-          <span class="label blue">OS</span>
-          <span class="dots">··················</span>
-          <span class="value">Windows 11, Ubuntu</span>
-        </div>
-        <div class="info-row">
-          <span class="label blue">Uptime</span>
-          <span class="dots">···············</span>
-          <span class="value">{{UPTIME}}</span>
-        </div>
-        <div class="info-row">
-          <span class="label blue">IDE</span>
-          <span class="dots">··················</span>
-          <span class="value">VSCode</span>
-        </div>
+        <div class="section">
+         <div class="info-row">
+           <span class="label blue">Focus</span>
+           <span class="dots">··················</span>
+           <span class="value">Robotics, Systems, Real-World Tech</span>
+         </div>
+         <div class="info-row">
+           <span class="label blue">Current.Build</span>
+           <span class="dots">··············</span>
+           <span class="value">MultiAgent Sims, Robots, and Full-Stack Apps</span>
+         </div>
+         <div class="info-row">
+           <span class="label blue">Mindset</span>
+           <span class="dots">··················</span>
+           <span class="value">Hack for efficiency</span>
+         </div>
+       </div>
       </div>
 
       <div class="section">
         <div class="info-row">
-          <span class="label green">Languages.Code</span>
-          <span class="dots">·········</span>
-          <span class="value">Java, Python, C++, C</span>
-        </div>
-        <div class="info-row">
-          <span class="label green">Languages.Real</span>
-          <span class="dots">·········</span>
-          <span class="value">English, Hindi, Spanish</span>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="info-row">
-          <span class="label purple">Hobbies</span>
-          <span class="dots">··················</span>
-          <span class="value">Reading, Making Cool Projects</span>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="info-row">
-          <span class="label orange">GitHub.Repos</span>
+          <span class="label orange">Repos.Built</span>
           <span class="dots">··········</span>
           <span class="value"><span class="hi">{{REPOS}}</span> <span class="mu">(contributed: {{CONTRIBUTED}})</span></span>
         </div>
@@ -297,12 +324,12 @@
         </div>
        --->
         <div class="info-row">
-          <span class="label orange">GitHub.Commits</span>
+          <span class="label orange">Commits.Shipped</span>
           <span class="dots">········</span>
           <span class="value"><span class="hi">{{COMMITS}}</span> <span class="mu">(all time)</span></span>
         </div>
         <div class="info-row">
-          <span class="label orange">GitHub.Followers</span>
+          <span class="label orange">Network.Size</span>
           <span class="dots">······</span>
           <span class="value"><span class="bl">{{FOLLOWERS}}</span></span>
         </div>
@@ -320,7 +347,7 @@
       </div>
 
       <div class="lang-section">
-        <div class="lang-label">TOP LANGUAGES</div>
+        <div class="lang-label">SYSTEM USAGE</div>
         <div class="lang-bars">{{LANG_BARS}}</div>
       </div>
 
@@ -332,6 +359,13 @@
         <span class="skill-pill pill-read">&#128214; Reading</span>
         <span class="skill-pill pill-proj">&#128187; Cool Projects</span>
       </div>
+     <div class="section">
+      <div class="info-row">
+        <span class="label purple">System.Version</span>
+        <span class="dots">··········</span>
+        <span class="value">v2.0 (self-evolving)</span>
+      </div>
+    </div>
     </div>
   </div>
 </div>
