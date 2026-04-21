@@ -258,6 +258,8 @@
 <polygon points="924,392.0 936,398.0 924,404.0 912,398.0" fill="#ff69b4"/><polygon points="912,398.0 924,404.0 924,416.0 912,410.0" fill="#c0306a"/><polygon points="936,398.0 924,404.0 924,416.0 936,410.0" fill="#e04d90"/>
 <polygon points="924,380.0 936,386.0 924,392.0 912,386.0" fill="#ff69b4"/><polygon points="912,386.0 924,392.0 924,404.0 912,398.0" fill="#c0306a"/><polygon points="936,386.0 924,392.0 924,404.0 936,398.0" fill="#e04d90"/>
 <polygon points="924,368.0 936,374.0 924,380.0 912,374.0" fill="#ff69b4"/><polygon points="912,374.0 924,380.0 924,392.0 912,386.0" fill="#c0306a"/><polygon points="936,374.0 924,380.0 924,392.0 936,386.0" fill="#e04d90"/>
+<polygon points="924,356.0 936,362.0 924,368.0 912,362.0" fill="#ff69b4"/><polygon points="912,362.0 924,368.0 924,380.0 912,374.0" fill="#c0306a"/><polygon points="936,362.0 924,368.0 924,380.0 936,374.0" fill="#e04d90"/>
+<polygon points="912,398.0 924,404.0 912,410.0 900,404.0" fill="#ff69b4"/><polygon points="900,404.0 912,410.0 912,422.0 900,416.0" fill="#c0306a"/><polygon points="924,404.0 912,410.0 912,422.0 924,416.0" fill="#e04d90"/>
 <text x="120" y="460" fill="#ffffff" font-family="monospace" font-size="11" opacity="0.8">NEW YORK CITY</text>
 <text x="380" y="460" fill="#ff69b4" font-family="monospace" font-size="11" opacity="0.8">ATLANTA</text>
 <text x="700" y="460" fill="#ffffff" font-family="monospace" font-size="11" opacity="0.8">SAN FRANCISCO</text>
