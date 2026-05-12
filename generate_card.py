@@ -1,35 +1,35 @@
 """
 generate_card.py
-Fetches live GitHub data for nishia1 and renders github_card.jpg
+Fetches live GitHub data for nishia1 and renders github_card_dark.jpg + github_card_light.jpg
+Usage:
+  python generate_card.py --theme dark
+  python generate_card.py --theme light
 """
 
 import os
-import json
+import argparse
 import datetime
 import subprocess
 import requests
-import textwrap
 
 # ── config ────────────────────────────────────────────────────────────────────
-USERNAME   = "nishia1"
-BIRTH_YEAR  = 2007
-BIRTH_MONTH = 3
-TOKEN      = os.environ.get("GH_TOKEN", "")
-TEMPLATE   = "card_template.html"
+USERNAME = "nishia1"
+TOKEN    = os.environ.get("GH_TOKEN", "")
+TEMPLATE = "card_template.html"
 
 HEADERS = {"Authorization": f"Bearer {TOKEN}"} if TOKEN else {}
 
 LANG_COLORS = {
-    "Java": "#ffa657",
-    "Python": "#79c0ff",
-    "C++": "#d2a8ff",
-    "C": "#7ee787",
+    "Java":       "#ffa657",
+    "Python":     "#79c0ff",
+    "C++":        "#d2a8ff",
+    "C":          "#7ee787",
     "JavaScript": "#e3b341",
     "TypeScript": "#58a6ff",
 }
 DEFAULT_COLOR = "#8b949e"
 
-# ── helpers ───────────────────────────────────────────────────────────────────
+# ── GraphQL helper ────────────────────────────────────────────────────────────
 
 def gh_graphql(query, variables=None):
     r = requests.post(
@@ -43,7 +43,23 @@ def gh_graphql(query, variables=None):
 
 # ── data fetch ────────────────────────────────────────────────────────────────
 
+def fetch_contribution_years():
+    """Fetch all years the user has made contributions."""
+    query = """
+    query {
+      viewer {
+        contributionsCollection {
+          contributionYears
+        }
+      }
+    }
+    """
+    data = gh_graphql(query)
+    return data["data"]["viewer"]["contributionsCollection"]["contributionYears"]
+
+
 def fetch_profile():
+    """Fetch repo count, followers, and contributed-to repo count."""
     query = """
     query {
       viewer {
@@ -51,16 +67,25 @@ def fetch_profile():
         repositories(ownerAffiliations: OWNER, first: 1) {
           totalCount
         }
+        repositoriesContributedTo(
+          contributionTypes: [COMMIT, PULL_REQUEST, REPOSITORY],
+          first: 1
+        ) {
+          totalCount
+        }
       }
     }
     """
     data = gh_graphql(query)["data"]["viewer"]
     return {
-        "repos": data["repositories"]["totalCount"],
-        "followers": data["followers"]["totalCount"],
+        "repos":       data["repositories"]["totalCount"],
+        "followers":   data["followers"]["totalCount"],
+        "contributed": data["repositoriesContributedTo"]["totalCount"],
     }
 
+
 def fetch_repos():
+    """Fetch all owned repos with language breakdown."""
     repos, cursor = [], None
     query = """
     query($cursor: String) {
@@ -86,7 +111,9 @@ def fetch_repos():
         cursor = page["pageInfo"]["endCursor"]
     return repos
 
+
 def fetch_top_languages(repos):
+    """Compute top 5 languages by bytes across non-fork repos."""
     totals = {}
     for repo in repos:
         if repo["isFork"]:
@@ -97,15 +124,32 @@ def fetch_top_languages(repos):
 
     sorted_langs = sorted(totals.items(), key=lambda x: x[1], reverse=True)[:5]
     total = sum(v for _, v in sorted_langs) or 1
-
     return [(k, round(v / total * 100, 1)) for k, v in sorted_langs]
 
-# ── ENERGY SYSTEM ─────────────────────────────────────────────────────────────
 
-def fetch_recent_activity():
-    today = datetime.datetime.now(datetime.timezone.utc).date()
-    start = today - datetime.timedelta(days=30)
+def fetch_total_commits(years):
+    """Sum all commit contributions across every contribution year."""
+    query = """
+    query($from: DateTime!, $to: DateTime!) {
+      viewer {
+        contributionsCollection(from: $from, to: $to) {
+          totalCommitContributions
+        }
+      }
+    }
+    """
+    total = 0
+    for year in years:
+        data = gh_graphql(query, {
+            "from": f"{year}-01-01T00:00:00Z",
+            "to":   f"{year}-12-31T23:59:59Z",
+        })
+        total += data["data"]["viewer"]["contributionsCollection"]["totalCommitContributions"]
+    return total
 
+
+def fetch_all_contribution_days(years):
+    """Fetch every contribution day across all years, sorted ascending."""
     query = """
     query($from: DateTime!, $to: DateTime!) {
       viewer {
@@ -119,42 +163,45 @@ def fetch_recent_activity():
       }
     }
     """
+    all_days = []
+    for year in years:
+        data = gh_graphql(query, {
+            "from": f"{year}-01-01T00:00:00Z",
+            "to":   f"{year}-12-31T23:59:59Z",
+        })
+        weeks = data["data"]["viewer"]["contributionsCollection"]["contributionCalendar"]["weeks"]
+        for w in weeks:
+            for d in w["contributionDays"]:
+                all_days.append((d["date"], d["contributionCount"]))
 
-    data = gh_graphql(query, {
-        "from": f"{start}T00:00:00Z",
-        "to": f"{today}T23:59:59Z"
-    })
+    all_days.sort(key=lambda x: x[0])
+    return all_days
 
-    weeks = data["data"]["viewer"]["contributionsCollection"]["contributionCalendar"]["weeks"]
+# ── compute stats ─────────────────────────────────────────────────────────────
 
-    days = []
-    for w in weeks:
-        for d in w["contributionDays"]:
-            days.append((d["date"], d["contributionCount"]))
+def compute_streak(all_days):
+    """Return (longest_streak_days, streak_pct) across all contribution history."""
+    longest = 0
+    current = 0
+    for _, count in all_days:
+        if count > 0:
+            current += 1
+            longest = max(longest, current)
+        else:
+            current = 0
 
-    days.sort(key=lambda x: x[0])
+    max_possible = 365
+    pct = min(round(longest / max_possible * 100, 1), 100)
+    return longest, pct
 
-    today_str = today.isoformat()
-    committed_today = any(d == today_str and c > 0 for d, c in days)
-
-    days_since = 0
-    for d, c in reversed(days):
-        if d == today_str:
-            continue
-        if c > 0:
-            break
-        days_since += 1
-
-    return committed_today, days_since, days
 
 def compute_energy(days):
-    commits = sum(c for _, c in days)
+    """Return (bar_string, state_label) based on commits in the last 30 days."""
+    commits    = sum(c for _, c in days)
     max_commits = 40
-
-    pct = min(commits / max_commits, 1.0)
+    pct   = min(commits / max_commits, 1.0)
     level = int(round(pct * 10))
-
-    bar = "█" * level + "░" * (10 - level)
+    bar   = "█" * level + "░" * (10 - level)
 
     if level == 0:
         state = "asleep"
@@ -169,12 +216,12 @@ def compute_energy(days):
 
     return bar, state
 
-# ── DOG STATES ────────────────────────────────────────────────────────────────
+# ── dog states ────────────────────────────────────────────────────────────────
 
-DOG_HAPPY = "(•ᴗ•)"
-DOG_EXCITED = "(ᕗ⚆益⚆)ᕗ"
+DOG_HAPPY    = "(•ᴗ•)"
+DOG_EXCITED  = "(ᕗ⚆益⚆)ᕗ"
 DOG_SLEEPING = "(－_－) zzZ"
-DOG_SAD = "(╥﹏╥)"
+DOG_SAD      = "(╥﹏╥)"
 
 def build_dog(energy_state):
     if energy_state == "overdrive":
@@ -204,38 +251,68 @@ def build_lang_bars(langs):
 # ── main ──────────────────────────────────────────────────────────────────────
 
 def main():
-    profile = fetch_profile()
-    repos = fetch_repos()
-    langs = fetch_top_languages(repos)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--theme", choices=["dark", "light"], default="dark")
+    args = parser.parse_args()
 
-    committed_today, days_since, days = fetch_recent_activity()
-    energy_bar, energy_state = compute_energy(days)
-    dog, dog_label = build_dog(energy_state)
+    print(f"── Fetching GitHub data ({args.theme} theme) ──")
 
+    # fetch everything — share years across calls to avoid duplicate queries
+    years    = fetch_contribution_years()
+    profile  = fetch_profile()
+    repos    = fetch_repos()
+    langs    = fetch_top_languages(repos)
+    all_days = fetch_all_contribution_days(years)
+    total_commits          = fetch_total_commits(years)
+    longest_streak, streak_pct = compute_streak(all_days)
+
+    # last 30 days only for energy bar
+    cutoff = (
+        datetime.datetime.now(datetime.timezone.utc).date()
+        - datetime.timedelta(days=30)
+    ).isoformat()
+    recent_days = [(d, c) for d, c in all_days if d >= cutoff]
+
+    energy_bar, energy_state = compute_energy(recent_days)
+    dog, dog_label           = build_dog(energy_state)
+
+    # load + patch template
     with open(TEMPLATE, "r") as f:
         html = f.read()
 
+    # inject theme class for light mode (dark is the :root default)
+    if args.theme == "light":
+        html = html.replace("<body>", '<body class="light">')
+
     replacements = {
-        "{{REPOS}}": str(profile["repos"]),
-        "{{FOLLOWERS}}": str(profile["followers"]),
-        "{{LANG_BARS}}": build_lang_bars(langs),
-        "{{ENERGY_BAR}}": energy_bar,
+        "{{REPOS}}":        str(profile["repos"]),
+        "{{CONTRIBUTED}}":  str(profile["contributed"]),
+        "{{COMMITS}}":      str(total_commits),
+        "{{FOLLOWERS}}":    str(profile["followers"]),
+        "{{STREAK}}":       str(longest_streak),
+        "{{STREAK_PCT}}":   str(streak_pct),
+        "{{LANG_BARS}}":    build_lang_bars(langs),
+        "{{ENERGY_BAR}}":   energy_bar,
         "{{ENERGY_STATE}}": energy_state,
-        "{{DOG}}": f"<div>{dog} {dog_label}</div>",
+        "{{DOG}}":          f"<div>{dog} {dog_label}</div>",
     }
 
     for k, v in replacements.items():
         html = html.replace(k, v)
 
-    with open("card_rendered.html", "w") as f:
+    rendered_html = f"card_rendered_{args.theme}.html"
+    output_jpg    = f"github_card_{args.theme}.jpg"
+
+    with open(rendered_html, "w") as f:
         f.write(html)
 
     subprocess.run([
         "wkhtmltoimage", "--width", "940",
-        "card_rendered.html", "github_card.jpg"
-    ])
+        rendered_html, output_jpg
+    ], check=True)
 
-    print("✔ Card generated!")
+    print(f"✔ {output_jpg} generated!")
+
 
 if __name__ == "__main__":
     main()
