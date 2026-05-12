@@ -2,42 +2,43 @@ name: Refresh GitHub Card
 
 on:
   schedule:
-    # change to 11:59 run to make commits for day acc accurate
+    # run at 11:59 PM to make commits for day accurately
     - cron: "59 23 * * *"
-  workflow_dispatch:   # allow manual trigger from Actions tab
+  workflow_dispatch: # allow manual trigger from Actions tab
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      # 1 ── checkout your profile repo
+      # 1 checkout your profile repo
       - name: Checkout
         uses: actions/checkout@v4
 
-      # 2 ── install wkhtmltopdf (provides wkhtmltoimage)
+      # 2 install wkhtmltopdf (provides wkhtmltoimage)
       - name: Install wkhtmltopdf
         run: |
           sudo apt-get update -q
           sudo apt-get install -y wkhtmltopdf
 
-      # 3 ── set up Python
+      # 3 set up Python
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
-      # 4 ── install Python deps
+      # 4 install Python deps
       - name: Install Python dependencies
         run: pip install requests
 
-      # 5 ── generate the card (uses GH_TOKEN secret for higher rate limits)
+      # 5 generate both dark and light cards
       - name: Generate card
         env:
           GH_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-        run: python generate_card.py
+        run: |
+          python generate_card.py --theme dark
+          python generate_card.py --theme light
 
-      # 6 ── commit & push if the image changed
+      # 6 commit & push if the images changed
       - name: Commit updated card
         run: |
           git config user.name  "github-actions[bot]"
