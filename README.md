@@ -1,6 +1,6 @@
-<p align="center">
+<!--- <p align="center">
   <img src="intro.svg" alt="Hi I'm Nishi" />
-</p>
+</p> --->
 <picture>
   <source media="(prefers-color-scheme: dark)"  srcset="github_card_dark.jpg">
   <source media="(prefers-color-scheme: light)" srcset="github_card_light.jpg">
@@ -17,4 +17,4 @@ Contact me at <nagrawal66@gatech.edu>!
 #
 ![](https://komarev.com/ghpvc/?username=nishia1&color=green)
 
-![Isometric City Contributions](./city-contributions.svg)
+<!---![Isometric City Contributions](./city-contributions.svg)--->
