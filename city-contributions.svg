@@ -262,9 +262,6 @@
 <polygon points="816,326.0 828,332.0 816,338.0 804,332.0" fill="#222222"/><polygon points="804,332.0 816,338.0 816,350.0 804,344.0" fill="#bbbbbb"/><polygon points="828,332.0 816,338.0 816,350.0 828,344.0" fill="#666666"/>
 <polygon points="816,314.0 828,320.0 816,326.0 804,320.0" fill="#222222"/><polygon points="804,320.0 816,326.0 816,338.0 804,332.0" fill="#bbbbbb"/><polygon points="828,320.0 816,326.0 816,338.0 828,332.0" fill="#666666"/>
 <polygon points="816,302.0 828,308.0 816,314.0 804,308.0" fill="#222222"/><polygon points="804,308.0 816,314.0 816,326.0 804,320.0" fill="#bbbbbb"/><polygon points="828,308.0 816,314.0 816,326.0 828,320.0" fill="#666666"/>
-<polygon points="816,290.0 828,296.0 816,302.0 804,296.0" fill="#222222"/><polygon points="804,296.0 816,302.0 816,314.0 804,308.0" fill="#bbbbbb"/><polygon points="828,296.0 816,302.0 816,314.0 828,308.0" fill="#666666"/>
-<polygon points="816,278.0 828,284.0 816,290.0 804,284.0" fill="#222222"/><polygon points="804,284.0 816,290.0 816,302.0 804,296.0" fill="#bbbbbb"/><polygon points="828,284.0 816,290.0 816,302.0 828,296.0" fill="#666666"/>
-<polygon points="816,266.0 828,272.0 816,278.0 804,272.0" fill="#222222"/><polygon points="804,272.0 816,278.0 816,290.0 804,284.0" fill="#bbbbbb"/><polygon points="828,272.0 816,278.0 816,290.0 828,284.0" fill="#666666"/>
 <polygon points="804,356.0 816,362.0 804,368.0 792,362.0" fill="#222222"/><polygon points="792,362.0 804,368.0 804,380.0 792,374.0" fill="#bbbbbb"/><polygon points="816,362.0 804,368.0 804,380.0 816,374.0" fill="#666666"/>
 <polygon points="780,368.0 792,374.0 780,380.0 768,374.0" fill="#222222"/><polygon points="768,374.0 780,380.0 780,392.0 768,386.0" fill="#bbbbbb"/><polygon points="792,374.0 780,380.0 780,392.0 792,386.0" fill="#666666"/>
 <polygon points="780,356.0 792,362.0 780,368.0 768,362.0" fill="#222222"/><polygon points="768,362.0 780,368.0 780,380.0 768,374.0" fill="#bbbbbb"/><polygon points="792,362.0 780,368.0 780,380.0 792,374.0" fill="#666666"/>
@@ -290,6 +287,8 @@
 <polygon points="852,356.0 864,362.0 852,368.0 840,362.0" fill="#ff69b4"/><polygon points="840,362.0 852,368.0 852,380.0 840,374.0" fill="#c0306a"/><polygon points="864,362.0 852,368.0 852,380.0 864,374.0" fill="#e04d90"/>
 <polygon points="852,380.0 864,386.0 852,392.0 840,386.0" fill="#ffffff"/><polygon points="840,386.0 852,392.0 852,404.0 840,398.0" fill="#cccccc"/><polygon points="864,386.0 852,392.0 852,404.0 864,398.0" fill="#e0e0e0"/>
 <polygon points="804,404.0 816,410.0 804,416.0 792,410.0" fill="#ffffff"/><polygon points="792,410.0 804,416.0 804,428.0 792,422.0" fill="#cccccc"/><polygon points="816,410.0 804,416.0 804,428.0 816,422.0" fill="#e0e0e0"/>
+<polygon points="888,410.0 900,416.0 888,422.0 876,416.0" fill="#ff69b4"/><polygon points="876,416.0 888,422.0 888,434.0 876,428.0" fill="#c0306a"/><polygon points="900,416.0 888,422.0 888,434.0 900,428.0" fill="#e04d90"/>
+<polygon points="888,398.0 900,404.0 888,410.0 876,404.0" fill="#ff69b4"/><polygon points="876,404.0 888,410.0 888,422.0 876,416.0" fill="#c0306a"/><polygon points="900,404.0 888,410.0 888,422.0 900,416.0" fill="#e04d90"/>
 <text x="120" y="460" fill="#ffffff" font-family="monospace" font-size="11" opacity="0.8">NEW YORK CITY</text>
 <text x="380" y="460" fill="#ff69b4" font-family="monospace" font-size="11" opacity="0.8">ATLANTA</text>
 <text x="700" y="460" fill="#ffffff" font-family="monospace" font-size="11" opacity="0.8">SAN FRANCISCO</text>
