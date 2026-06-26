@@ -270,6 +270,7 @@
 <polygon points="780,392.0 792,398.0 780,404.0 768,398.0" fill="#ff69b4"/><polygon points="768,398.0 780,404.0 780,416.0 768,410.0" fill="#c0306a"/><polygon points="792,398.0 780,404.0 780,416.0 792,410.0" fill="#e04d90"/>
 <polygon points="864,398.0 876,404.0 864,410.0 852,404.0" fill="#222222"/><polygon points="852,404.0 864,410.0 864,422.0 852,416.0" fill="#bbbbbb"/><polygon points="876,404.0 864,410.0 864,422.0 876,416.0" fill="#666666"/>
 <polygon points="864,386.0 876,392.0 864,398.0 852,392.0" fill="#222222"/><polygon points="852,392.0 864,398.0 864,410.0 852,404.0" fill="#bbbbbb"/><polygon points="876,392.0 864,398.0 864,410.0 876,404.0" fill="#666666"/>
+<polygon points="876,416.0 888,422.0 876,428.0 864,422.0" fill="#ff69b4"/><polygon points="864,422.0 876,428.0 876,440.0 864,434.0" fill="#c0306a"/><polygon points="888,422.0 876,428.0 876,440.0 888,434.0" fill="#e04d90"/>
 <text x="120" y="460" fill="#ffffff" font-family="monospace" font-size="11" opacity="0.8">NEW YORK CITY</text>
 <text x="380" y="460" fill="#ff69b4" font-family="monospace" font-size="11" opacity="0.8">ATLANTA</text>
 <text x="700" y="460" fill="#ffffff" font-family="monospace" font-size="11" opacity="0.8">SAN FRANCISCO</text>
