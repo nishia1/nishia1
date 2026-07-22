@@ -18,3 +18,4 @@ Contact me at <nagrawal66@gatech.edu>!
 ![](https://komarev.com/ghpvc/?username=nishia1&color=green)
 
 <!---![Isometric City Contributions](./city-contributions.svg)--->
+[![Nishi's GitHub stats](https://github-stats-extended.vercel.app/api?username=nishia1)](https://github.com/stats-organization/github-stats-extended)
