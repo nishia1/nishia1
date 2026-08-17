@@ -6,7 +6,7 @@
   <source media="(prefers-color-scheme: light)" srcset="github_card_light.jpg">
   <img src="github_card_dark.jpg" alt="nishi@nishia1">
 </picture>
----!>
+--->
 I'm a student studying CS at Georgia Institute of Technology!
 
 I like data-driven applications for cutting-edge technology, robots, tech for social good, and building cool stuff at hackathons :)
