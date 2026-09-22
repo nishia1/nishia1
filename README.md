@@ -7,9 +7,9 @@
   <img src="github_card_dark.jpg" alt="nishi@nishia1">
 </picture>
 --->
-Hi! I'm a computer science student at Georgia Tech, but I'm also a hobbyist side-project (and side quest) addict, coffee/chai consumer, and a huge fan of building!
+Hi! I'm a computer science student at Georgia Tech, but I'm also a hobbyist side-project (and side quest) addict, coffee and chai consumer, and a huge fan of building!
 
-I enjoy data-driven applications, cutting-edge technology, robots, tech for social good, and building cool stuff at hackathons as well as the tech that helps make them happen :) Working on problems that make me sweat is super enjoyable.
+I enjoy working on data-driven applications, cutting-edge technology, robots, tech for social good, and building cool stuff at hackathons as well as the tech that helps make them happen :)
 
 Some Recent Work:
 - Working on RL policies to enable humanoid motion in rough terrain environments
