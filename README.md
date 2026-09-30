@@ -12,8 +12,8 @@ Hi! I'm a computer science student at Georgia Tech, but I also love learning new
 I enjoy working on data-driven applications, cutting-edge technology, robots, tech for social good, and building cool stuff at hackathons as well as the tech that helps make them happen :)
 
 Some Recent Work:
+- Building infra and tools for the Hive Makerspace (maintaining & developing new features for HUMS) and Hexlabs (the organization which runs HackGT :)) across the stack
 - Working on RL policies to enable humanoid motion in rough terrain environments
-- Building infra and tools for the Hive Makerspace (maintaining & developing new features for HUMS) and Hexlabs (the organization which runs HackGT :))
 
 #
 [![Tech Stack](https://skillicons.dev/icons?i=cpp,java,py,kotlin,matlab,latex,react,flask,pytorch,tensorflow,opencv,ros,arduino,raspberrypi,git,cmake&theme=dark&perline=8)](https://skillicons.dev)
