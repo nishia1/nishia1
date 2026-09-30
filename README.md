@@ -7,7 +7,7 @@
   <img src="github_card_dark.jpg" alt="nishi@nishia1">
 </picture>
 --->
-Hi! I'm a computer science student at Georgia Tech, but I'm also a hobbyist side-project (and side quest) addict, coffee and chai consumer, and a huge fan of building!
+Hi! I'm a computer science student at Georgia Tech, but I also love learning new skills and am huge fan of building!
 
 I enjoy working on data-driven applications, cutting-edge technology, robots, tech for social good, and building cool stuff at hackathons as well as the tech that helps make them happen :)
 
