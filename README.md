@@ -13,7 +13,6 @@ I enjoy working on data-driven applications, cutting-edge technology, robots, te
 
 Some Recent Work:
 - Working on RL policies to enable humanoid motion in rough terrain environments
-- Hackathon maxxing!
 - Building infra and tools for the Hive Makerspace (maintaining & developing new features for HUMS) and Hexlabs (the organization which runs HackGT :))
 
 #
