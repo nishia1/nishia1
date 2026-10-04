@@ -111,7 +111,6 @@
 <polygon points="504,182.0 516,188.0 504,194.0 492,188.0" fill="#222222"/><polygon points="492,188.0 504,194.0 504,206.0 492,200.0" fill="#bbbbbb"/><polygon points="516,188.0 504,194.0 504,206.0 516,200.0" fill="#666666"/>
 <polygon points="444,212.0 456,218.0 444,224.0 432,218.0" fill="#222222"/><polygon points="432,218.0 444,224.0 444,236.0 432,230.0" fill="#bbbbbb"/><polygon points="456,218.0 444,224.0 444,236.0 456,230.0" fill="#666666"/>
 <polygon points="480,206.0 492,212.0 480,218.0 468,212.0" fill="#ffffff"/><polygon points="468,212.0 480,218.0 480,230.0 468,224.0" fill="#cccccc"/><polygon points="492,212.0 480,218.0 480,230.0 492,224.0" fill="#e0e0e0"/>
-<polygon points="456,218.0 468,224.0 456,230.0 444,224.0" fill="#ffffff"/><polygon points="444,224.0 456,230.0 456,242.0 444,236.0" fill="#cccccc"/><polygon points="468,224.0 456,230.0 456,242.0 468,236.0" fill="#e0e0e0"/>
 <polygon points="456,230.0 468,236.0 456,242.0 444,236.0" fill="#ff69b4"/><polygon points="444,236.0 456,242.0 456,254.0 444,248.0" fill="#c0306a"/><polygon points="468,236.0 456,242.0 456,254.0 468,248.0" fill="#e04d90"/>
 <polygon points="456,218.0 468,224.0 456,230.0 444,224.0" fill="#ff69b4"/><polygon points="444,224.0 456,230.0 456,242.0 444,236.0" fill="#c0306a"/><polygon points="468,224.0 456,230.0 456,242.0 468,236.0" fill="#e04d90"/>
 <polygon points="456,206.0 468,212.0 456,218.0 444,212.0" fill="#ff69b4"/><polygon points="444,212.0 456,218.0 456,230.0 444,224.0" fill="#c0306a"/><polygon points="468,212.0 456,218.0 456,230.0 468,224.0" fill="#e04d90"/>
@@ -156,7 +155,6 @@
 <polygon points="516,188.0 528,194.0 516,200.0 504,194.0" fill="#ff69b4"/><polygon points="504,194.0 516,200.0 516,212.0 504,206.0" fill="#c0306a"/><polygon points="528,194.0 516,200.0 516,212.0 528,206.0" fill="#e04d90"/>
 <polygon points="516,176.0 528,182.0 516,188.0 504,182.0" fill="#ff69b4"/><polygon points="504,182.0 516,188.0 516,200.0 504,194.0" fill="#c0306a"/><polygon points="528,182.0 516,188.0 516,200.0 528,194.0" fill="#e04d90"/>
 <polygon points="492,248.0 504,254.0 492,260.0 480,254.0" fill="#ff69b4"/><polygon points="480,254.0 492,260.0 492,272.0 480,266.0" fill="#c0306a"/><polygon points="504,254.0 492,260.0 492,272.0 504,266.0" fill="#e04d90"/>
-<polygon points="576,218.0 588,224.0 576,230.0 564,224.0" fill="#222222"/><polygon points="564,224.0 576,230.0 576,242.0 564,236.0" fill="#bbbbbb"/><polygon points="588,224.0 576,230.0 576,242.0 588,236.0" fill="#666666"/>
 <polygon points="516,248.0 528,254.0 516,260.0 504,254.0" fill="#222222"/><polygon points="504,254.0 516,260.0 516,272.0 504,266.0" fill="#bbbbbb"/><polygon points="528,254.0 516,260.0 516,272.0 528,266.0" fill="#666666"/>
 <polygon points="588,224.0 600,230.0 588,236.0 576,230.0" fill="#ffffff"/><polygon points="576,230.0 588,236.0 588,248.0 576,242.0" fill="#cccccc"/><polygon points="600,230.0 588,236.0 588,248.0 600,242.0" fill="#e0e0e0"/>
 <polygon points="588,212.0 600,218.0 588,224.0 576,218.0" fill="#ffffff"/><polygon points="576,218.0 588,224.0 588,236.0 576,230.0" fill="#cccccc"/><polygon points="600,218.0 588,224.0 588,236.0 600,230.0" fill="#e0e0e0"/>
@@ -310,6 +308,7 @@
 <polygon points="900,392.0 912,398.0 900,404.0 888,398.0" fill="#ff69b4"/><polygon points="888,398.0 900,404.0 900,416.0 888,410.0" fill="#c0306a"/><polygon points="912,398.0 900,404.0 900,416.0 912,410.0" fill="#e04d90"/>
 <polygon points="888,410.0 900,416.0 888,422.0 876,416.0" fill="#ff69b4"/><polygon points="876,416.0 888,422.0 888,434.0 876,428.0" fill="#c0306a"/><polygon points="900,416.0 888,422.0 888,434.0 900,428.0" fill="#e04d90"/>
 <polygon points="888,398.0 900,404.0 888,410.0 876,404.0" fill="#ff69b4"/><polygon points="876,404.0 888,410.0 888,422.0 876,416.0" fill="#c0306a"/><polygon points="900,404.0 888,410.0 888,422.0 900,416.0" fill="#e04d90"/>
+<polygon points="852,428.0 864,434.0 852,440.0 840,434.0" fill="#ff69b4"/><polygon points="840,434.0 852,440.0 852,452.0 840,446.0" fill="#c0306a"/><polygon points="864,434.0 852,440.0 852,452.0 864,446.0" fill="#e04d90"/>
 <text x="120" y="460" fill="#ffffff" font-family="monospace" font-size="11" opacity="0.8">NEW YORK CITY</text>
 <text x="380" y="460" fill="#ff69b4" font-family="monospace" font-size="11" opacity="0.8">ATLANTA</text>
 <text x="700" y="460" fill="#ffffff" font-family="monospace" font-size="11" opacity="0.8">SAN FRANCISCO</text>
